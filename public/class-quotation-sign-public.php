@@ -94,6 +94,7 @@ class Quotation_sign_Public {
 		add_shortcode( 'submitted-data-page', array( $this, 'display_session_data' ) );
 		// END ACCESS PLUGIN ADMIN PUBLIC METHODES FROM INSIDE
 		add_action( 'init', array( $this, 'quotation_sign_pay' ) );
+		add_action( 'init', array( $this, 'quotation_sign_pay_success' ) );
 
     }
     // END ACCESS PLUGIN ADMIN PUBLIC METHODES FROM INSIDE
@@ -245,7 +246,7 @@ class Quotation_sign_Public {
 			$_SESSION['form_data']['signature'] = $_POST['signature'];
 			$_SESSION['form_data']['amount'] = $_POST['amount'];
 			$_SESSION['form_data']['dueamount'] = $_POST['dueamount'];
-			$_SESSION['form_data']['signature_img'] = $_POST['signature'];
+			// $_SESSION['form_data']['signature_img'] = $_POST['signature'];
 		
 			// Set up Stripe
 			require_once( Quotation_sign_PATH . '/vendor/stripe/init.php' );
@@ -293,13 +294,61 @@ class Quotation_sign_Public {
 
 	}
 
-
-	public function storeData($sessionID) {
+	public function quotation_sign_pay_success($sessionID) {
+		global $wpdb;
+		
 		// Call the function to store data
 		if (isset($_GET['success']) && $_GET['success'] == 'true' && isset($_GET['session_id'])) {
 			$sessionID = $_GET['session_id'];
-			// storeData($sessionID);
+
+			if (!session_id()) {
+				session_start();
+			}
+			
+			// Check if $_SESSION['form_data'] is set
+			if (isset($_SESSION['form_data'])) {
+				$form_data = $_SESSION['form_data'];
+				$form_data['session_id'] = $sessionID;
+
+
+				// get only the signature and upload into media library and set signature as the url
+				$signature = $form_data['signature'];
+
+				if ($signature) {
+					$signature = str_replace('data:image/png;base64,', '', $signature);
+					$signature = str_replace(' ', '+', $signature);
+					$signature = base64_decode($signature);
+					$filename = 'signature-' . time() . '.png';
+					$upload_dir = wp_upload_dir();
+					$signature_path = $upload_dir['path'] . '/' . $filename;
+					file_put_contents($signature_path, $signature);
+					$attachment = array(
+						'post_mime_type' => 'image/png',
+						'post_title' => $filename,
+						'post_content' => '',
+						'post_status' => 'inherit'
+					);
+					$attach_id = wp_insert_attachment($attachment, $signature_path);
+					$signature_url = wp_get_attachment_url($attach_id);
+					$form_data['signature'] = $signature_url;
+				}
+
+				// Store form_data as json into the database
+				$table_name = $wpdb->prefix . 'quotation_sign_list';
+				$wpdb->insert(
+					$table_name,
+					array(
+						'value' => json_encode($form_data),
+						'created_at' => current_time('mysql'),
+					)
+				);
+
+			}
+
+			// Unset $_SESSION['form_data']
+			// unset($_SESSION['form_data']);
 		}
 	}
+	
 
 }

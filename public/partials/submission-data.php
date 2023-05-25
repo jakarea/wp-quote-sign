@@ -11,7 +11,9 @@
  * @subpackage Quotation_sign/public/partials
  */
 
-session_start();
+ if (!session_id()) {
+    session_start();
+}
 
 // Retrieve the form data from the session
 $form_data = $_SESSION['form_data'];

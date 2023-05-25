@@ -50,8 +50,10 @@
 				var data = signaturePad.toDataURL();
 				$('#signature').val(data);
 				console.log(data);
-				// submit form
-				$('form').submit();
+				// submit the form if click on pay button
+				if($(this).attr('id') == 'pay'){
+					$('form').submit();
+				}
 				return true;
 			}
 		});	

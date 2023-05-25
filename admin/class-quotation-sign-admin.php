@@ -86,6 +86,9 @@ class Quotation_sign_Admin {
         $this->version = $version;
         $this->main = $plugin_main;
 
+        add_shortcode( 'qoutation_sign_all_submission', array( $this, 'all_submission_shortcode' ) );
+        add_action( 'wp_ajax_quotation_sign_single_list', array( $this, 'quotation_sign_single_list' ) );
+        add_action( 'wp_ajax_nopriv_quotation_sign_single_list', array( $this, 'quotation_sign_single_list' ) );
     }
     // ACCESS PLUGIN ADMIN PUBLIC METHODES FROM INSIDE
 
@@ -151,6 +154,33 @@ class Quotation_sign_Admin {
 
     public function test_sanitize_callback( $val ) {
         return str_replace ( 'a', 'b', $val );
+    }
+
+    // register shortcode to show all submission form data
+    public function all_submission_shortcode() {
+        ob_start();
+        include_once( plugin_dir_path( __FILE__ ) . 'partials/quotation-sign-admin-display.php' );
+        return ob_get_clean();
+    }
+
+    public function quotation_sign_single_list() {
+        global $wpdb;
+
+        $id = $_GET['id'];
+        // send json success response
+
+        // get the data based on id from wp_giopio_quote_calculator
+        $table_name = $wpdb->prefix . 'quotation_sign_list';
+        $result = $wpdb->get_row( "SELECT * FROM $table_name WHERE id = $id" );
+        if( $result ) {
+            wp_send_json_success( $result );
+        }
+        else {
+            wp_send_json_error( 'No data found' );
+        }        
+
+        wp_die();
+
     }
 
     public function create_menu() {
@@ -247,7 +277,7 @@ class Quotation_sign_Admin {
                 array(
                     'type'    => 'card',
                     'class'   => 'class-name', // for all fieds
-                    'content' => '<p>Etiam consectetur commodo ullamcorper. Donec quis diam nulla. Maecenas at mi molestie ex aliquet dignissim a in tortor. Sed in nisl ac mi rutrum feugiat ac sed sem. Nullam tristique ex a tempus volutpat. Sed ut placerat nibh, a iaculis risus. Aliquam sit amet erat vel nunc feugiat viverra. Mauris aliquam arcu in dolor volutpat, sed tempor tellus dignissim.</p><p>Quisque nec lectus vitae velit commodo condimentum ut nec mi. Cras ut ultricies dui. Nam pretium <a href="#">rutrum eros</a> ac facilisis. Morbi vulputate vitae risus ac varius. Quisque sed accumsan diam. Sed elementum eros lectus, et egestas ante hendrerit eu. Proin porta, enim nec dignissim commodo, odio orci maximus tortor, iaculis congue felis velit sed lorem. </p>',
+                    'content' => '<p> <code>[quotation-sign-form]</code> This is Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.</p>',
                     'header' => 'Quotation Sign',
                     'footer' => 'Footer Text',
                 ),
@@ -385,6 +415,29 @@ class Quotation_sign_Admin {
                     ),
                 ),
 
+            )
+        );
+
+        // panel title
+        $fields[] = array(
+            'title'   => esc_html__( 'All Submission', 'exopite-combiner-minifier' ),
+            'sections' => array(),
+            'icon'  => '',
+        );
+
+        // All Submission show from shortcode
+        $fields[] = array(
+            'name'  => 'all_submission',
+            'title' => esc_html__('All Submission', 'quotation-sign'),
+            'description'  => esc_html__('All Submission', 'quotation-sign'),
+            'icon'  => 'fa fa-window-maximize',
+            'fields'    =>  array(
+                array(
+                    'id'    => 'all_submission_page',
+                    'type'  => 'content', // Use the 'page_select' field type
+                    'desc'  => esc_html__( 'Select the page where you want to show all submission.', 'quotation-sign' ),
+                    'content'   => do_shortcode( "[qoutation_sign_all_submission]" ),
+                )
             )
         );
 
