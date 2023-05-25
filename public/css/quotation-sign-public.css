@@ -1,0 +1,176 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+/* Path: public\css\quotation-sign-public.css */
+/**
+ * All of the CSS and Javascript for the public-facing side of the plugin.
+ *
+ * @package   Quotation_Sign_Public
+ */
+
+/* Container styles */
+/* Container styles */
+.quotation-sign-public-display__container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  /* Header styles */
+  .quotation-sign-public-display__container__header {
+    margin-bottom: 20px;
+  }
+  
+  .quotation-sign-public-display__container__header__title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Form field styles */
+  .quotation-sign-public-display__container__form__form__field {
+    margin-bottom: 20px;
+  }
+  
+  .quotation-sign-public-display__container__form__form__field__label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .quotation-sign-public-display__container__form__form__field__input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .quotation-sign-public-display__container__form__form__field__submit {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #337ab7;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .quotation-sign-public-display__container__form__form__field__submit:hover {
+    background-color: #23527c;
+  }
+
+  .quotation-sign-public-display__container__table table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  .quotation-sign-public-display__container__table th,
+  .quotation-sign-public-display__container__table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .quotation-sign-public-display__container__table th {
+    background-color: #f2f2f2;
+  }
+  
+  .quotation-sign-public-display__container__table td {
+    background-color: #f2f2f2;
+  }
+  
+  .quotation-sign-public-display__container__table__price {
+    margin-top: 20px;
+    text-align: right;
+  }
+  
+  .quotation-sign-public-display__container__table__price__label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .quotation-sign-public-display__container__table__price__value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff9800;
+  }
+  
+  .quotation-sign-public-display__container__table__signature {
+    margin-top: 20px;
+  }
+  .quotation-sign-public-display__container__table__info {
+    margin-top: 20px;
+    text-align: center;
+    background-color: #d7f8db;
+    border: 1px solid #d7f8db;
+    border-radius: 4px;
+    padding: 10px;
+  }
+  
+  .quotation-sign-public-display__container__table__info__label {
+    font-weight: bold;
+  }
+  
+  .quotation-sign-public-display__container__table__info__value {
+    display: block;
+    margin-top: 5px;
+  }
+  
+  .quotation-sign-public-display__container__table__signature__label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .quotation-sign-public-display__container__table__signature__canvas {
+    margin-top: 10px;
+  }
+  
+  .quotation-sign-public-display__container__table__signature__buttons {
+    margin-top: 10px;
+  }
+  
+  .quotation-sign-public-display__container__table__pay {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .quotation-sign-public-display__container__table__pay .button {
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+  
+  .quotation-sign-public-display__container__table__pay .button:hover {
+    background-color: #45a049;
+  }
+  
+  
+  /* Responsive styles */
+  @media (max-width: 600px) {
+    .quotation-sign-public-display__container {
+      max-width: 100%;
+      padding: 10px;
+    }
+    
+    .quotation-sign-public-display__container__form__form__field__input,
+    .quotation-sign-public-display__container__form__form__field__submit {
+      font-size: 12px;
+    }
+  }  
