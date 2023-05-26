@@ -4,7 +4,7 @@
  * Register custom post type
  *
  * @link       http://joe.szalai.org
- * @since      1.0.0
+ * 
  *
  * @package    Exopite_Portfolio
  * @subpackage Exopite_Portfolio/includes

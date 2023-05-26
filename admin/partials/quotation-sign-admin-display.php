@@ -6,37 +6,21 @@
  * This file is used to markup the admin-facing aspects of the plugin.
  *
  * @link       https://giopio.com
- * @since      1.0.0
+ * 
  *
  * @package    Quotation_sign
  * @subpackage Quotation_sign/admin/partials
  */
 global $wpdb;
 $table_name = $wpdb->prefix . 'quotation_sign_list';
-$quotation_sign_data = $wpdb->get_results("SELECT * FROM $table_name");
-
-// foreach ($quotation_sign_data as $quotation_sign) {
-//     $data = json_decode($quotation_sign->value);
-//     echo $data->name;
-// }
+$quotation_sign_data = $wpdb->get_results("SELECT * FROM $table_name ORDER BY id DESC");
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="giopio-container">
    <div class="row">
       <section class="submissions">
-
          <div class="submisson-list"><h3>All Submission List</h3></div>
-
-         <!-- <div class="submission message-active">
-            <div class="photo" style="background-image: url(https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80);">
-            </div>
-            <div class="desc-contact">
-               <p class="name">Megan Leib</p>
-               <p class="message">9 pm at the bar if possible 😳</p>
-            </div>
-            <div class="timer">12 sec</div>
-         </div> -->
         <?php
         if ( !empty($quotation_sign_data) ) :
         foreach ( $quotation_sign_data as $key => $data ) : ?>

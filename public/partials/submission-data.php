@@ -5,7 +5,7 @@
  * This file is used to markup the public-facing aspects of the plugin.
  *
  * @link       https://giopio.com
- * @since      1.0.0
+ * 
  *
  * @package    Quotation Sign
  * @subpackage Quotation_sign/public/partials
@@ -16,7 +16,7 @@
 }
 
 // Retrieve the form data from the session
-$form_data = $_SESSION['form_data'];
+$form_data = $_SESSION['form_data'] ?? null;
 
 $quotation_sign = get_exopite_sof_option( 'quotation-sign' );
 
@@ -26,6 +26,7 @@ if ( ! empty( $quotation_sign['language'] ) ) {
     $language = substr( get_locale(), 0, 2 );
 }
 $square_meter_price = $quotation_sign['square_meter_price'];
+$square_meter_price_description = $quotation_sign['square_meter_price_description'];
 
 ?>
 
@@ -36,6 +37,8 @@ $square_meter_price = $quotation_sign['square_meter_price'];
                 <?php echo esc_html__('Quotation Info', 'quotation-sign') ; ?>
             </h2>
         </div>
+        <?php
+        if ( !empty( $form_data ) ) { ?>
         <div class="quotation-sign-public-display__container__table">
             <?php
             if ( isset( $_GET['success'] ) && $_GET['success'] == 'true' ) {
@@ -82,7 +85,7 @@ $square_meter_price = $quotation_sign['square_meter_price'];
                 </div>
                 <!-- Info [for order confirmation please pay at least 20%] -->
                 <div class="quotation-sign-public-display__container__table__info">
-                    <span class="quotation-sign-public-display__container__table__info__value"><?php echo esc_html__('For order confirmation please pay at least 20%', 'quotation-sign') ; ?></span>
+                    <span class="quotation-sign-public-display__container__table__info__value"><?php echo esc_html__($square_meter_price_description, 'quotation-sign') ; ?></span>
                 </div>
                 <div class="quotation-sign-public-display__container__table__pay">
                     <input type="hidden" name="quotation_sign_pay" value="quotation_sign_pay">
@@ -93,5 +96,16 @@ $square_meter_price = $quotation_sign['square_meter_price'];
                 <?php } ?> 
             </form>
         </div>
+        <?php } else { ?>
+        <div class="quotation-sign-public-display__container__table">
+            <div class="alert alert-danger" role="alert"><?php echo esc_html__('No data found.', 'quotation-sign') ; ?></div>
+        </div>
+        <?php } ?>
     </div>
 </div>
+
+<?php
+if ( isset( $_GET['success'] ) && $_GET['success'] == 'true' ) {
+    unset( $_SESSION['form_data'] );
+}
+?>

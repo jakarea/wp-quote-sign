@@ -4,7 +4,7 @@
  * Register all actions and filters for the plugin
  *
  * @link              https://giopio.com
- * @since             1.0.0
+ * 
  *
  * @package     Quotation Sign
  * @subpackage  Quotation Sign/includes

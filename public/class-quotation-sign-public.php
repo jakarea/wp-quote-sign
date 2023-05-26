@@ -4,7 +4,7 @@
  * The public-facing functionality of the plugin.
  *
  * @link              https://giopio.com
- * @since             1.0.0
+ * @since             1.0.1
  *
  * @package     Quotation Sign
  * @subpackage  Quotation Sign/includes
@@ -25,7 +25,7 @@ class Quotation_sign_Public {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @access   private
 	 * @var      string    $quotation_sign    The ID of this plugin.
 	 */
@@ -34,7 +34,7 @@ class Quotation_sign_Public {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -57,7 +57,7 @@ class Quotation_sign_Public {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @param      string    $quotation_sign       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -76,7 +76,7 @@ class Quotation_sign_Public {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 * @param      string    $quotation_sign       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -102,7 +102,7 @@ class Quotation_sign_Public {
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 */
 	public function enqueue_styles() {
 
@@ -131,7 +131,7 @@ class Quotation_sign_Public {
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 */
 	public function enqueue_scripts() {
 
@@ -162,7 +162,7 @@ class Quotation_sign_Public {
 	/**
 	 * Add shortcode
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.1
 	 */
 	public function quotation_sign_shortcode() {
 		ob_start();
@@ -247,10 +247,14 @@ class Quotation_sign_Public {
 			$_SESSION['form_data']['amount'] = $_POST['amount'];
 			$_SESSION['form_data']['dueamount'] = $_POST['dueamount'];
 			// $_SESSION['form_data']['signature_img'] = $_POST['signature'];
+
+			$quotation_sign = get_exopite_sof_option( 'quotation-sign' );
+			$stripe_payment_secret_key = $quotation_sign['stripe_payment_secret_key'];
+			$stripe_payment_publishable_key = $quotation_sign['stripe_payment_publishable_key'];
 		
 			// Set up Stripe
 			require_once( Quotation_sign_PATH . '/vendor/stripe/init.php' );
-			\Stripe\Stripe::setApiKey('sk_test_51MyRmPIPOd0zPaLLVoU39SY8hJKkKLWSXU4y8bule6fXQuzRtInpIbdJqD4CPxvPOkzhiRefwgDy1UgEInscPT1100cKRkHxeu');
+			\Stripe\Stripe::setApiKey($stripe_payment_secret_key);
 		
 			try {
 				// Create a payment intent with the dynamic price
@@ -345,8 +349,6 @@ class Quotation_sign_Public {
 
 			}
 
-			// Unset $_SESSION['form_data']
-			// unset($_SESSION['form_data']);
 		}
 	}
 	

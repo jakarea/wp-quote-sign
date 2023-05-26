@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://giopio.com
- * @since             1.0.0
+ * @since             1.0.1
  * @package           Quotation Sign
  *
  * @wordpress-plugin
  * Plugin Name:       Quotation Sign
- * Plugin URI:        https://github.com/jakarea/quotation-sign/
+ * Plugin URI:        https://github.com/jakarea/wp-quote-sign.git
  * Description:       Handle the basics with this plugin.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            GioPio
  * Author URI:        https://giopio.com
  * License:           GPL-2.0+
@@ -31,7 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'Quotation_sign_Quotation_sign', 'quotation-sign' );
-define( 'Quotation_sign_VERSION', '1.0.0' );
+define( 'Quotation_sign_VERSION', '1.0.1' );
 define( 'Quotation_sign_URL', plugin_dir_url( __FILE__ ) );
 define( 'Quotation_sign_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -107,12 +107,15 @@ if ( is_admin() ) {
 
 	}
 
-	$MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+	$qoutation_sign_updater = Puc_v4_Factory::buildUpdateChecker(
 		// CHANGE THIS FOR YOUR UPDATE URL
-		'https://github.com/jakarea/quotation-sign/' . Quotation_sign_Quotation_sign, //Metadata URL.
+		'https://github.com/jakarea/wp-quote-sign.git', //Metadata URL.
 		__FILE__, //Full path to the main plugin file.
-		Quotation_sign_Quotation_sign //Plugin slug. Usually it's the same as the name of the directory.
+		'wp-quote-sign.git' //Plugin slug. Usually it's the same as the name of the directory.
 	);
+
+	// set the branch that contains the stable release.
+	$qoutation_sign_updater->setBranch( 'master' );
 
 	/**
 	 * add plugin upgrade notification

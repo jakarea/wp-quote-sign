@@ -4,7 +4,7 @@
  * Fired during plugin activation
  *
  * @link              https://giopio.com
- * @since             1.0.0
+ * 
  *
  * @package     Quotation Sign
  * @subpackage  Quotation Sign/includes
@@ -15,7 +15,7 @@
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      1.0.0
+ * 
  * @package    Quotation Sign
  * @subpackage Quotation Sign/includes
  * @author     Md Arif <arifypp@gmail.com>

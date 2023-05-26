@@ -7,7 +7,7 @@
  * public-facing side of the site and the admin area.
  *
  * @link              https://giopio.com
- * @since             1.0.0
+ * @since             1.0.1
  *
  * @package     Quotation Sign
  * @subpackage  Quotation Sign/includes
@@ -22,7 +22,7 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.0
+ * 
  * @package    Quotation Sign
  * @subpackage Quotation Sign/includes
  * @author     Md Arif <arifypp@gmail.com>

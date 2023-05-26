@@ -4,7 +4,7 @@ Donate link: https://giopio.com
 Tags: simple calculate, calculate, calculator
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 4.3
+Stable tag: 1.0.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,7 +43,7 @@ This section describes how to install the plugin and get it working.
 
 e.g.
 
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
+1. Upload `qoutation-sign.php` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Place `<?php do_action('Quotation_sign_hook'); ?>` in your templates
 
@@ -66,6 +66,10 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 2. This is the second screen shot
 
 == Changelog ==
+= 1.1 =
+* Update session for calculate
+* Update stripe sectret key with dynamic value
+* fixed minor bug
 
 = 1.0 =
 * A change since the previous version.
@@ -76,8 +80,11 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 == Upgrade Notice ==
 
+= 1.1 =
+There is a new version of Qoutation Sign plugin available.
+
 = 1.0 =
-Upgrade notices describe the reason a user should upgrade.  No more than 300 characters.
+Upgrade notices describe the reason a user should upgrade.
 
 = 0.5 =
 This version fixes a security related bug.  Upgrade immediately.
