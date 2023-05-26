@@ -4,7 +4,7 @@
  * The public-facing functionality of the plugin.
  *
  * @link              https://giopio.com
- * @since             1.0.1
+ * @since             1.0.0
  *
  * @package     Quotation Sign
  * @subpackage  Quotation Sign/includes
@@ -25,7 +25,7 @@ class Quotation_sign_Public {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.1
+	 * @since    1.0.0
 	 * @access   private
 	 * @var      string    $quotation_sign    The ID of this plugin.
 	 */
@@ -34,7 +34,7 @@ class Quotation_sign_Public {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.1
+	 * @since    1.0.0
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -57,7 +57,7 @@ class Quotation_sign_Public {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.1
+	 * @since    1.0.0
 	 * @param      string    $quotation_sign       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -76,7 +76,7 @@ class Quotation_sign_Public {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.1
+	 * @since    1.0.0
 	 * @param      string    $quotation_sign       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -90,8 +90,8 @@ class Quotation_sign_Public {
 
 		//Submit form
 		add_action( 'init', array( $this, 'my_form_submission_handler' ) );
-		// display_session_data
-		add_shortcode( 'submitted-data-page', array( $this, 'display_session_data' ) );
+		// qoutation_sign_display_session_data
+		add_shortcode( 'submitted-data-page', array( $this, 'qoutation_sign_display_session_data' ) );
 		// END ACCESS PLUGIN ADMIN PUBLIC METHODES FROM INSIDE
 		add_action( 'init', array( $this, 'quotation_sign_pay' ) );
 		add_action( 'init', array( $this, 'quotation_sign_pay_success' ) );
@@ -102,7 +102,7 @@ class Quotation_sign_Public {
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
-	 * @since    1.0.1
+	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
 
@@ -131,7 +131,7 @@ class Quotation_sign_Public {
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
 	 *
-	 * @since    1.0.1
+	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
 
@@ -162,7 +162,7 @@ class Quotation_sign_Public {
 	/**
 	 * Add shortcode
 	 *
-	 * @since    1.0.1
+	 * @since    1.0.0
 	 */
 	public function quotation_sign_shortcode() {
 		ob_start();
@@ -178,21 +178,32 @@ class Quotation_sign_Public {
 		// Check if the form has been submitted
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['my_form_submit'])) {
 			// Handle form submission and store data in session
-			session_start();
+			if (!session_id()) {
+				session_start();
+			}
+
+			// Check if form data is empty return error
+			if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['phone']) || empty($_POST['square_meters'])) {
+				// Set error message
+				$_SESSION['error'] = 'Please fill all the fields';
+				// Redirect to submitted-data-page
+				wp_redirect(get_permalink(get_page_by_path('submitted-data-page')));
+				exit;
+			}
 
 			// Retrieve form data
-			$name = sanitize_text_field($_POST['name']);
-			$email = sanitize_email($_POST['email']);
-			$phone = sanitize_text_field($_POST['phone']);
-			$square_meters = intval($_POST['square_meters']);
+			$form_data = array(
+				'name' => sanitize_text_field($_POST['name']),
+				'email' => sanitize_email($_POST['email']),
+				'phone' => sanitize_text_field($_POST['phone']),
+				'square_meters' => intval($_POST['square_meters'])
+			);
+
+			// Pass form data to qoutation_sign_display_session_data function
+			$this->qoutation_sign_display_session_data($form_data);
 
 			// Store form data in session
-			$_SESSION['form_data'] = array(
-				'name' => $name,
-				'email' => $email,
-				'phone' => $phone,
-				'square_meters' => $square_meters
-			);
+			$_SESSION['form_data'] = $form_data;
 
 			// var_dump($_SESSION['form_data']);
 			// exit;
@@ -224,14 +235,21 @@ class Quotation_sign_Public {
 	}
 
 
-	function display_session_data($atts) {
+	function qoutation_sign_display_session_data($form_data) {
+		if (!session_id()) {
+			session_start();
+		}
 		ob_start();
 
+		// Retrieve data from the my_form_submission_handler
+		$form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : array();
+
+		// Start the output buffering and capture any output
 		include_once( plugin_dir_path( __FILE__ ) . 'partials/submission-data.php' );
-
+	
 		return ob_get_clean();
-
 	}
+	
 
 	/**
 	 * Submit form quotation_sign_pay
@@ -240,7 +258,9 @@ class Quotation_sign_Public {
 		// Check if the form has been submitted
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quotation_sign_pay'])) {
 			// Handle form submission and update data in session form_data
-			session_start();
+			if (!session_id()) {
+				session_start();
+			}
 		
 			// Add signature to session form_data
 			$_SESSION['form_data']['signature'] = $_POST['signature'];

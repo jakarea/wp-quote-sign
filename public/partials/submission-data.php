@@ -11,13 +11,6 @@
  * @subpackage Quotation_sign/public/partials
  */
 
- if (!session_id()) {
-    session_start();
-}
-
-// Retrieve the form data from the session
-$form_data = $_SESSION['form_data'] ?? null;
-
 $quotation_sign = get_exopite_sof_option( 'quotation-sign' );
 
 if ( ! empty( $quotation_sign['language'] ) ) {
