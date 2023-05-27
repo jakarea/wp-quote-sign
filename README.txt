@@ -66,6 +66,13 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 2. This is the second screen shot
 
 == Changelog ==
+= 1.4 =
+* Active mail notification for admin only with PDF
+* Aded PDF attachment
+* Move Plugin to new menu
+* fixed minor bug
+
+== Changelog ==
 = 1.3 =
 * Remove sesson from function
 * Active mail notification for admin only
@@ -89,6 +96,15 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 * List versions from most recent at top to oldest at bottom.
 
 == Upgrade Notice ==
+
+= 1.4 =
+There is a new version of Qoutation Sign plugin available.
+
+= 1.3 =
+There is a new version of Qoutation Sign plugin available.
+
+= 1.2 =
+There is a new version of Qoutation Sign plugin available.
 
 = 1.1 =
 There is a new version of Qoutation Sign plugin available.

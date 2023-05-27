@@ -127,6 +127,74 @@ class Quotation_sign_Public {
 		wp_enqueue_style( $this->quotation_sign, plugin_dir_url( __FILE__ ) . 'css/quotation-sign-public.css', array(), $this->version, 'all' );
 
 	}
+	/**
+	 * Generate PDF
+	 */
+	function generate_pdf($session_data) {
+		// Include the main TCPDF library (search for installation path).
+		require_once(dirname(plugin_dir_path(__FILE__)) . '/vendor/tcpdf/tcpdf.php');
+		
+		// Create new PDF document
+		$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
+		
+		// Set document information
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('Your Name');
+		$pdf->SetTitle('Qoutation Sign Submission');
+		$pdf->SetSubject('Qoutation Sign Submission');
+		$pdf->SetKeywords('Qoutation Sign Submission');
+		
+		// Set default header data
+		$pdf->SetHeaderData('', 0, '', '', array(0,0,0), array(255,255,255));
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		
+		// Set default footer data
+		$pdf->setFooterData(array(0,0,0), array(255,255,255));
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		
+		// Set margins
+		$pdf->SetMargins(15, 15, 15, true);
+		
+		// Add a page
+		$pdf->AddPage();
+				
+		// Create a nice table with data from session
+		$pdf->Ln(10);
+		$pdf->SetFont('helvetica', 'B', 12);
+		$pdf->Cell(0, 0, 'Qoutation Sign Submission', 0, 1, 'C');
+		$pdf->Ln(10);
+		$pdf->SetFont('helvetica', '', 12);
+		$pdf->SetFillColor(255, 255, 255);
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetDrawColor(0, 0, 0);
+		$pdf->SetLineWidth(0.1);
+		
+		$rowHeight = 6; // Set the height of each row
+		$fill = false; // Set initial fill value
+		
+		$maxWidth = $pdf->getPageWidth() - $pdf->getMargins()['left'] - $pdf->getMargins()['right']; // Get the maximum width for each cell
+		
+		foreach ($session_data as $key => $value) {
+			$key = str_replace('_', ' ', $key);
+			// Calculate the width for the key and value cells
+			$keyWidth = $maxWidth * 0.4;
+			$valueWidth = $maxWidth * 0.6;
+		
+			// Output the key and value in a single line with table formatting
+			$pdf->SetFillColor(230, 230, 230); // Set the fill color for the row
+			$pdf->Cell($keyWidth, $rowHeight, $key, 'LTB', 0, 'L', $fill); // Output the key with left border
+			$pdf->Cell($valueWidth, $rowHeight, $value, 'RTB', 1, 'L', $fill); // Output the value with right border
+		
+			$fill = !$fill; // Toggle the fill value to alternate row colors
+		}
+		
+		// Output the PDF as a string
+		$pdf_content = $pdf->Output('', 'S');
+		
+		return $pdf_content;			
+		
+	}	
+
 
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
@@ -187,6 +255,14 @@ class Quotation_sign_Public {
 				exit;
 			}
 
+			if ( !is_numeric($_POST['square_meters']) || $_POST['square_meters'] < 0 ) {
+				// Set error message
+				$_SESSION['error'] = 'Please enter a valid number';
+				// Redirect to submitted-data-page
+				wp_redirect(get_permalink(get_page_by_path('submitted-data-page')));
+				exit;
+			}
+
 			// Retrieve form data
 			$form_data = array(
 				'name' => sanitize_text_field($_POST['name']),
@@ -194,9 +270,6 @@ class Quotation_sign_Public {
 				'phone' => sanitize_text_field($_POST['phone']),
 				'square_meters' => intval($_POST['square_meters'])
 			);
-
-			// Pass the form data to the qoutation_sign_display_session_data function
-			$this->qoutation_sign_display_session_data($form_data);
 
 			// Check if submitted-data-page exists or not and if not, create it
 			$submitted_data_page = get_page_by_path('submitted-data-page');
@@ -229,7 +302,7 @@ class Quotation_sign_Public {
 	}
 
 
-	function qoutation_sign_display_session_data($form_data) {
+	function qoutation_sign_display_session_data() {
 		// Start the output buffering
 		ob_start();
 
@@ -380,6 +453,10 @@ class Quotation_sign_Public {
 
 			// $quotation_sign_user_email_body .= $quotation_sign_user_table;
 
+
+			// Generate the PDF file content
+			$pdf_content = $this->generate_pdf($form_data);
+
 			// Set the email headers
 			$headers = array(
 				"From: " . get_bloginfo( 'name' ) . " <" . get_bloginfo( 'admin_email' ) . ">",
@@ -387,8 +464,17 @@ class Quotation_sign_Public {
 				"Content-Type: text/html; charset=UTF-8; application/pdf",
 			);
 
+			// Set the attachment path
+			$attachment_path = plugin_dir_path( __FILE__ ) . 'partials/pdf-template.pdf';
+
+			// Save the PDF content to a file
+			file_put_contents( $attachment_path, $pdf_content );
+
+			// Send the email with the attachment
+			$attachment = array( $attachment_path );
+
 			// Send email admin and user
-			$result = wp_mail( $quotation_sign_admin_email, $quotation_sign_admin_email_subject, $quotation_sign_admin_email_body, $headers );
+			$result = wp_mail( $quotation_sign_admin_email, $quotation_sign_admin_email_subject, $quotation_sign_admin_email_body, $headers, $attachment );
 
 			if ($result) {
 				// echo 'Email sent successfully';
@@ -399,6 +485,4 @@ class Quotation_sign_Public {
 			}
 		}
 	}
-	
-
 }

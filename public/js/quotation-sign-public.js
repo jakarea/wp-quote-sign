@@ -56,7 +56,10 @@
 				}
 				return true;
 			}
-		});	
+		});
+
+		// if input type is number then set min value 1
+		jQuery('input[type="number"]').attr('min', 1);
 		
 	});
 

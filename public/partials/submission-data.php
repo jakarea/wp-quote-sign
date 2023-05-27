@@ -56,7 +56,7 @@ $square_meter_price_description = $quotation_sign['square_meter_price_descriptio
                 </tr>
             </table>
             <div class="quotation-sign-public-display__container__table__price">
-                <span class="quotation-sign-public-display__container__table__price__label"><?php echo esc_html__('Price', 'quotation-sign') ; ?> :</span>
+                <span class="quotation-sign-public-display__container__table__price__label"><?php echo esc_html__('Price '. $form_data['square_meters'] .'×'. $square_meter_price, 'quotation-sign') ; ?> :</span>
                 <span class="quotation-sign-public-display__container__table__price__value"><?php echo esc_html('$' . $form_data['square_meters'] * $square_meter_price) ; ?></span>
             </div>
             <!-- Add Digital Signature and Pay Button -->
@@ -84,7 +84,7 @@ $square_meter_price_description = $quotation_sign['square_meter_price_descriptio
                     <input type="hidden" name="quotation_sign_pay" value="quotation_sign_pay">
                     <input type="hidden" name="amount" value="<?php echo esc_html__($form_data['square_meters'] * $square_meter_price / 100 * 20, 'quotation-sign') ; ?>">
                     <input type="hidden" name="dueamount" value="<?php echo esc_html($form_data['square_meters'] * $square_meter_price) - $form_data['square_meters'] * $square_meter_price / 100 * 20; ?>">                    
-                    <button type="submit" id="pay" class="button button-primary"><?php echo esc_html__('Pay $'. $form_data['square_meters'] * $square_meter_price / 100 * 20, 'quotation-sign') ; ?></button>                                              
+                    <button type="submit" id="pay" class="button button-primary"><?php echo esc_html__('Pay $'. $form_data['square_meters'] * $square_meter_price / 100 * 20 . ' (20%)', 'quotation-sign') ; ?></button>                                              
                 </div>
                 <?php } ?> 
             </form>

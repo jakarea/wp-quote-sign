@@ -791,11 +791,11 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 				//
 				'parent'        => 'options-general.php',
 				'menu'          => 'plugins.php', // For backward compatibility
-				'menu_title'    => __( 'Plugin Options', 'exopite-options-framework' ),
+				'menu_title'    => __( 'Qoutation Sign', 'exopite-options-framework' ),
 				// Required for submenu
 				'submenu'       => false,
 				//The name of this page
-				'title'         => __( 'Plugin Options', 'exopite-options-framework' ),
+				'title'         => __( 'Qoutation Sign', 'exopite-options-framework' ),
 				'option_title'  => '',
 				// The capability needed to view the page
 				'capability'    => 'manage_options',

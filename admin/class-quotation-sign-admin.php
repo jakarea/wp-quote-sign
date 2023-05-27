@@ -191,10 +191,10 @@ class Quotation_sign_Admin {
          * @link https://github.com/JoeSz/Exopite-Simple-Options-Framework
          */
         $config_submenu = array(
-
             'type'              => 'menu',                          // Required, menu or metabox
             'id'                => $this->quotation_sign,              // Required, meta box id, unique per page, to save: get_option( id )
-            'submenu'           => true,                            // Required for submenu
+            'submenu'           => false,                            // Required for submenu
+            'icon'              => 'dashicons-calculator',        // Optional, dashicon or image url
             'title'             => 'Quotation Sign',               // The title of the options page and the name in admin menu
             'capability'        => 'manage_options',                // The capability needed to view the page
             'plugin_basename'   =>  plugin_basename( plugin_dir_path( __DIR__ ) . $this->quotation_sign . '.php' ),
