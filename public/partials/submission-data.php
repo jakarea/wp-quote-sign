@@ -5,11 +5,12 @@
  * This file is used to markup the public-facing aspects of the plugin.
  *
  * @link       https://giopio.com
- * 
  *
  * @package    Quotation Sign
  * @subpackage Quotation_sign/public/partials
  */
+
+// Get submitted form data from url parameter
 
 $quotation_sign = get_exopite_sof_option( 'quotation-sign' );
 
@@ -20,9 +21,8 @@ if ( ! empty( $quotation_sign['language'] ) ) {
 }
 $square_meter_price = $quotation_sign['square_meter_price'];
 $square_meter_price_description = $quotation_sign['square_meter_price_description'];
-
 ?>
-
+<!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="quotation-sign-public-display">
     <div class="quotation-sign-public-display__container">
         <div class="quotation-sign-public-display__container__header">
@@ -96,9 +96,3 @@ $square_meter_price_description = $quotation_sign['square_meter_price_descriptio
         <?php } ?>
     </div>
 </div>
-
-<?php
-if ( isset( $_GET['success'] ) && $_GET['success'] == 'true' ) {
-    unset( $_SESSION['form_data'] );
-}
-?>

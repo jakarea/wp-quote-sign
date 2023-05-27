@@ -172,7 +172,7 @@ class Quotation_sign {
         /**
          * Custom Post Types
          */
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-quotation-sign-post_types.php';
+        //require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-quotation-sign-post_types.php';
 
 		/**************************************
 		 * EXOPITE SIMPLE OPTIONS FRAMEWORK
@@ -257,8 +257,8 @@ class Quotation_sign {
 		 *
 		 * @tutorial custom_post_types.php
          */
-		$plugin_post_types = new Quotation_sign_Post_Types();
-        $this->loader->add_action( 'init', $plugin_post_types, 'create_custom_post_type', 999 );
+		// $plugin_post_types = new Quotation_sign_Post_Types();
+        // $this->loader->add_action( 'init', $plugin_post_types, 'create_custom_post_type', 999 );
 		// END CREATE CUSTOM POST TYPES
 
 		/***********************************

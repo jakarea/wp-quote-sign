@@ -177,10 +177,6 @@ class Quotation_sign_Public {
 	public function my_form_submission_handler() {
 		// Check if the form has been submitted
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['my_form_submit'])) {
-			// Handle form submission and store data in session
-			if (!session_id()) {
-				session_start();
-			}
 
 			// Check if form data is empty return error
 			if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['phone']) || empty($_POST['square_meters'])) {
@@ -199,14 +195,8 @@ class Quotation_sign_Public {
 				'square_meters' => intval($_POST['square_meters'])
 			);
 
-			// Pass form data to qoutation_sign_display_session_data function
+			// Pass the form data to the qoutation_sign_display_session_data function
 			$this->qoutation_sign_display_session_data($form_data);
-
-			// Store form data in session
-			$_SESSION['form_data'] = $form_data;
-
-			// var_dump($_SESSION['form_data']);
-			// exit;
 
 			// Check if submitted-data-page exists or not and if not, create it
 			$submitted_data_page = get_page_by_path('submitted-data-page');
@@ -227,8 +217,12 @@ class Quotation_sign_Public {
 				$submitted_data_page_id = $submitted_data_page->ID;
 			}
 
-			// Redirect to the page showing submitted data
-			wp_redirect(get_permalink($submitted_data_page_id));
+			// Redirect to submitted-data-page
+			// Build the redirect URL with form data
+			$redirect_url = add_query_arg('form_data', urlencode(base64_encode(serialize($form_data))), get_permalink($submitted_data_page_id));
+
+			// Redirect to submitted-data-page with form data
+			wp_redirect($redirect_url);			
 			exit;
 		}
 
@@ -236,19 +230,22 @@ class Quotation_sign_Public {
 
 
 	function qoutation_sign_display_session_data($form_data) {
-		if (!session_id()) {
-			session_start();
-		}
+		// Start the output buffering
 		ob_start();
 
-		// Retrieve data from the my_form_submission_handler
-		$form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : array();
-
-		// Start the output buffering and capture any output
-		include_once( plugin_dir_path( __FILE__ ) . 'partials/submission-data.php' );
+		// Retrieve form data
+		if ( isset($_GET['form_data']) ) {
+		$form_data = unserialize(base64_decode($_GET['form_data']));
+		}
+		else
+		{
+			$form_data = array();
+		}
+		//
+		require plugin_dir_path(__FILE__) . 'partials/submission-data.php';
 	
 		return ob_get_clean();
-	}
+	}	
 	
 
 	/**
@@ -257,16 +254,34 @@ class Quotation_sign_Public {
 	public function quotation_sign_pay() {
 		// Check if the form has been submitted
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quotation_sign_pay'])) {
-			// Handle form submission and update data in session form_data
-			if (!session_id()) {
-				session_start();
+
+			// retrieve form data from base64 encoded string
+			$form_data = unserialize(base64_decode($_GET['form_data']));
+			
+			// Add signature to form_data variable
+			$signature = sanitize_text_field($_POST['signature']);
+			// upload signature and get the path to signature
+			if( $signature ){
+				$signature = str_replace('data:image/png;base64,', '', $signature);
+				$signature = str_replace(' ', '+', $signature);
+				$signature = base64_decode($signature);
+				$filename = 'signature-' . time() . '.png';
+				$upload_dir = wp_upload_dir();
+				$signature_path = $upload_dir['path'] . '/' . $filename;
+				file_put_contents($signature_path, $signature);
+				$attachment = array(
+					'post_mime_type' => 'image/png',
+					'post_title' => $filename,
+					'post_content' => '',
+					'post_status' => 'inherit'
+				);
+				$attach_id = wp_insert_attachment($attachment, $signature_path);
+				$signature_url = wp_get_attachment_url($attach_id);
+				$form_data['signature'] = $signature_url;
 			}
-		
-			// Add signature to session form_data
-			$_SESSION['form_data']['signature'] = $_POST['signature'];
-			$_SESSION['form_data']['amount'] = $_POST['amount'];
-			$_SESSION['form_data']['dueamount'] = $_POST['dueamount'];
-			// $_SESSION['form_data']['signature_img'] = $_POST['signature'];
+
+			$form_data['amount'] = sanitize_text_field($_POST['amount']);
+			$form_data['dueamount'] = sanitize_text_field($_POST['dueamount']);
 
 			$quotation_sign = get_exopite_sof_option( 'quotation-sign' );
 			$stripe_payment_secret_key = $quotation_sign['stripe_payment_secret_key'];
@@ -278,7 +293,7 @@ class Quotation_sign_Public {
 		
 			try {
 				// Create a payment intent with the dynamic price
-				$price = $_SESSION['form_data']['amount'] * 100; // Stripe requires the amount in cents
+				$price = $form_data['amount'] * 100; // Stripe requires the amount to be in cents
 				$payment_intent = \Stripe\PaymentIntent::create([
 					'amount' => $price,
 					'currency' => 'usd', // Set the appropriate currency code
@@ -302,7 +317,7 @@ class Quotation_sign_Public {
 						'quantity' => 1,
 					]],
 					'mode' => 'payment',
-					'success_url' => $submitted_data_page_url . '&success=true&session_id={CHECKOUT_SESSION_ID}',
+					'success_url' => $submitted_data_page_url . '&success=true&session_id={CHECKOUT_SESSION_ID}' . '&form_data=' . urlencode(base64_encode(serialize($form_data))), 
 					'cancel_url' => $submitted_data_page_url . '&error=payment_cancelled'
 				]);
 
@@ -318,57 +333,70 @@ class Quotation_sign_Public {
 
 	}
 
-	public function quotation_sign_pay_success($sessionID) {
+	public function quotation_sign_pay_success() {
 		global $wpdb;
 		
 		// Call the function to store data
 		if (isset($_GET['success']) && $_GET['success'] == 'true' && isset($_GET['session_id'])) {
 			$sessionID = $_GET['session_id'];
 
-			if (!session_id()) {
-				session_start();
+			$form_data = unserialize(base64_decode($_GET['form_data']));
+			$form_data['session_id'] = $sessionID;
+
+			// Store form_data as json into the database
+			$table_name = $wpdb->prefix . 'quotation_sign_list';
+			$wpdb->insert(
+				$table_name,
+				array(
+					'value' => json_encode($form_data),
+					'created_at' => current_time('mysql'),
+				)
+			);
+
+			// Send email to admin and user
+			$quotation_sign_admin_email = get_option('admin_email');
+			$quotation_sign_admin_email_subject = 'Quotation Sign - New Submission';
+			$quotation_sign_admin_email_body = 'A new submission has been made. Please check the admin panel for more details. You can also see the details about submission bellow:';
+			$quotation_sign_admin_table = '<table style="width:50%;border:1px solid #000;border-collapse:collapse;">';
+			$quotation_sign_admin_table .= '<tr><th style="border:1px solid #000;padding:5px;">Field</th><th style="border:1px solid #000;padding:5px;">Value</th></tr>';
+			foreach ($form_data as $key => $value) {
+				$key = str_replace('_', ' ', $key);
+				$quotation_sign_admin_table .= '<tr><td style="border:1px solid #000;padding:5px;">' . $key . '</td><td style="border:1px solid #000;padding:5px;">' . $value . '</td></tr>';
 			}
-			
-			// Check if $_SESSION['form_data'] is set
-			if (isset($_SESSION['form_data'])) {
-				$form_data = $_SESSION['form_data'];
-				$form_data['session_id'] = $sessionID;
+			$quotation_sign_admin_table .= '</table>';
 
+			$quotation_sign_admin_email_body .= $quotation_sign_admin_table;
 
-				// get only the signature and upload into media library and set signature as the url
-				$signature = $form_data['signature'];
+			// $quotation_sign_user_email = $form_data['email'];
+			// $quotation_sign_user_email_subject = 'Quotation Sign - New Submission';
+			// $quotation_sign_user_email_body = 'Thank you for your submission. You can see the details about submission bellow:';
+			// $quotation_sign_user_table = '<table style="width:50%;border:1px solid #000;border-collapse:collapse;">';
+			// $quotation_sign_user_table .= '<tr><th style="border:1px solid #000;padding:5px;">Field</th><th style="border:1px solid #000;padding:5px;">Value</th></tr>';
+			// foreach ($form_data as $key => $value) {
+			// 	$key = str_replace('_', ' ', $key);
+			// 	$quotation_sign_user_table .= '<tr><td style="border:1px solid #000;padding:5px;">' . $key . '</td><td style="border:1px solid #000;padding:5px;">' . $value . '</td></tr>';
+			// }
+			// $quotation_sign_user_table .= '</table>';
 
-				if ($signature) {
-					$signature = str_replace('data:image/png;base64,', '', $signature);
-					$signature = str_replace(' ', '+', $signature);
-					$signature = base64_decode($signature);
-					$filename = 'signature-' . time() . '.png';
-					$upload_dir = wp_upload_dir();
-					$signature_path = $upload_dir['path'] . '/' . $filename;
-					file_put_contents($signature_path, $signature);
-					$attachment = array(
-						'post_mime_type' => 'image/png',
-						'post_title' => $filename,
-						'post_content' => '',
-						'post_status' => 'inherit'
-					);
-					$attach_id = wp_insert_attachment($attachment, $signature_path);
-					$signature_url = wp_get_attachment_url($attach_id);
-					$form_data['signature'] = $signature_url;
-				}
+			// $quotation_sign_user_email_body .= $quotation_sign_user_table;
 
-				// Store form_data as json into the database
-				$table_name = $wpdb->prefix . 'quotation_sign_list';
-				$wpdb->insert(
-					$table_name,
-					array(
-						'value' => json_encode($form_data),
-						'created_at' => current_time('mysql'),
-					)
-				);
+			// Set the email headers
+			$headers = array(
+				"From: " . get_bloginfo( 'name' ) . " <" . get_bloginfo( 'admin_email' ) . ">",
+				"Reply-To: " . get_bloginfo( 'admin_email' ),
+				"Content-Type: text/html; charset=UTF-8; application/pdf",
+			);
 
+			// Send email admin and user
+			$result = wp_mail( $quotation_sign_admin_email, $quotation_sign_admin_email_subject, $quotation_sign_admin_email_body, $headers );
+
+			if ($result) {
+				// echo 'Email sent successfully';
+				return true;
+			} else {
+				// echo 'Email not sent';
+				return false;
 			}
-
 		}
 	}
 	

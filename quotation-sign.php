@@ -16,7 +16,7 @@
  * Plugin Name:       Quotation Sign
  * Plugin URI:        https://github.com/jakarea/wp-quote-sign.git
  * Description:       Handle the basics with this plugin.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Author:            GioPio
  * Author URI:        https://giopio.com
  * License:           GPL-2.0+
@@ -86,20 +86,6 @@ if ( is_admin() ) {
 	/**
 	 * A custom update checker for WordPress plugins.
 	 *
-	 * How to use:
-	 * - Copy vendor/plugin-update-checker to your plugin OR
-	 *   Download https://github.com/YahnisElsts/plugin-update-checker to the folder
-	 * - Create a subdomain or a folder for the update server eg. https://updates.example.net
-	 *   Download https://github.com/YahnisElsts/wp-update-server and copy to the subdomain or folder
-	 * - Add plguin zip to the 'packages' folder
-	 *
-	 * Useful if you don't want to host your project
-	 * in the official WP repository, but would still like it to support automatic updates.
-	 * Despite the name, it also works with themes.
-	 *
-	 * @link http://w-shadow.com/blog/2011/06/02/automatic-updates-for-commercial-themes/
-	 * @link https://github.com/YahnisElsts/plugin-update-checker
-	 * @link https://github.com/YahnisElsts/wp-update-server
 	 */
 	if( ! class_exists( 'Puc_v4_Factory' ) ) {
 

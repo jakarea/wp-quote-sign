@@ -4,7 +4,7 @@ Donate link: https://giopio.com
 Tags: simple calculate, calculate, calculator
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.1
+Stable tag: 1.0.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,12 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 2. This is the second screen shot
 
 == Changelog ==
+= 1.3 =
+* Remove sesson from function
+* Active mail notification for admin only
+* Remove unused post type
+* fixed minor bug
+
 = 1.2 =
 * Update session for calculate
 * fixed minor bug
