@@ -4,7 +4,7 @@ Donate link: https://giopio.com
 Tags: simple calculate, calculate, calculator
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.3
+Stable tag: 1.0.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,12 @@ the /assets directory or the directory that contains the stable readme.txt (tags
 directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
 (or jpg, jpeg, gif).
 2. This is the second screen shot
+
+== Changelog ==
+= 1.5 =
+* Active mail notification for admin only with PDF
+* Active mail notification for Customer only with PDF
+* fixed minor bug
 
 == Changelog ==
 = 1.4 =

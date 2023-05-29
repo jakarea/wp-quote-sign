@@ -390,7 +390,7 @@ class Quotation_sign_Public {
 						'quantity' => 1,
 					]],
 					'mode' => 'payment',
-					'success_url' => $submitted_data_page_url . '&success=true&session_id={CHECKOUT_SESSION_ID}' . '&form_data=' . urlencode(base64_encode(serialize($form_data))), 
+					'success_url' => $submitted_data_page_url . '?page_id='.$submitted_data_page->ID.'&success=true&session_id={CHECKOUT_SESSION_ID}' . '&form_data=' . urlencode(base64_encode(serialize($form_data))), 
 					'cancel_url' => $submitted_data_page_url . '&error=payment_cancelled'
 				]);
 
@@ -440,18 +440,18 @@ class Quotation_sign_Public {
 
 			$quotation_sign_admin_email_body .= $quotation_sign_admin_table;
 
-			// $quotation_sign_user_email = $form_data['email'];
-			// $quotation_sign_user_email_subject = 'Quotation Sign - New Submission';
-			// $quotation_sign_user_email_body = 'Thank you for your submission. You can see the details about submission bellow:';
-			// $quotation_sign_user_table = '<table style="width:50%;border:1px solid #000;border-collapse:collapse;">';
-			// $quotation_sign_user_table .= '<tr><th style="border:1px solid #000;padding:5px;">Field</th><th style="border:1px solid #000;padding:5px;">Value</th></tr>';
-			// foreach ($form_data as $key => $value) {
-			// 	$key = str_replace('_', ' ', $key);
-			// 	$quotation_sign_user_table .= '<tr><td style="border:1px solid #000;padding:5px;">' . $key . '</td><td style="border:1px solid #000;padding:5px;">' . $value . '</td></tr>';
-			// }
-			// $quotation_sign_user_table .= '</table>';
+			$quotation_sign_user_email = $form_data['email'];
+			$quotation_sign_user_email_subject = 'Quotation Sign - New Submission';
+			$quotation_sign_user_email_body = 'Thank you for your submission. You can see the details about submission bellow:';
+			$quotation_sign_user_table = '<table style="width:50%;border:1px solid #000;border-collapse:collapse;">';
+			$quotation_sign_user_table .= '<tr><th style="border:1px solid #000;padding:5px;">Field</th><th style="border:1px solid #000;padding:5px;">Value</th></tr>';
+			foreach ($form_data as $key => $value) {
+				$key = str_replace('_', ' ', $key);
+				$quotation_sign_user_table .= '<tr><td style="border:1px solid #000;padding:5px;">' . $key . '</td><td style="border:1px solid #000;padding:5px;">' . $value . '</td></tr>';
+			}
+			$quotation_sign_user_table .= '</table>';
 
-			// $quotation_sign_user_email_body .= $quotation_sign_user_table;
+			$quotation_sign_user_email_body .= $quotation_sign_user_table;
 
 
 			// Generate the PDF file content
@@ -473,11 +473,13 @@ class Quotation_sign_Public {
 			// Send the email with the attachment
 			$attachment = array( $attachment_path );
 
-			// Send email admin and user
+			// Send email admin
 			$result = wp_mail( $quotation_sign_admin_email, $quotation_sign_admin_email_subject, $quotation_sign_admin_email_body, $headers, $attachment );
 
+			// Send email user
+
 			if ($result) {
-				// echo 'Email sent successfully';
+				wp_mail( $quotation_sign_user_email, $quotation_sign_user_email_subject, $quotation_sign_user_email_body, $headers, $attachment );
 				return true;
 			} else {
 				// echo 'Email not sent';

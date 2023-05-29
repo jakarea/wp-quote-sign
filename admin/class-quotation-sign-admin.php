@@ -726,13 +726,13 @@ class Quotation_sign_Admin {
             if ( 'true' === $_GET['settings-updated'] ) : ?>
 
                 <div class="notice notice-success is-dismissible">
-                    <p><?php _e('Congratulations! You did a very good job.', 'textdomain') ?></p>
+                    <p><?php _e('Congratulations! You did a very good job.', 'qoutation-sign') ?></p>
                 </div>
 
             <?php else : ?>
 
                 <div class="notice notice-warning is-dismissible">
-                    <p><?php _e('Sorry, I can not go through this.', 'textdomain') ?></p>
+                    <p><?php _e('Sorry, I can not go through this.', 'qoutation-sign') ?></p>
                 </div>
 
             <?php endif;
