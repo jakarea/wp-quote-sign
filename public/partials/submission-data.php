@@ -62,7 +62,8 @@ $square_meter_price_description = $quotation_sign['square_meter_price_descriptio
             <!-- Add Digital Signature and Pay Button -->
             <?php
             if ( !isset( $_GET['success'] ) || $_GET['success'] !== 'true' ) {?>
-            <form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" method="post" enctype="multipart/form-data">
+            <form action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="my_form_submission_handler">
                 <div class="quotation-sign-public-display__container__table__signature">
                     <div class="quotation-sign-public-display__container__table__signature__label">
                         <?php echo esc_html__('Digital Signature', 'quotation-sign') ; ?>
