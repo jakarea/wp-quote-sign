@@ -1,0 +1,347 @@
+msgid ""
+msgstr ""
+"Language: nl_NL\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"PO-Revision-Date: 2023-06-13 09:39+0000\n"
+"POT-Creation-Date: 2023-06-13 09:31+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"Project-Id-Version: Quotation Sign\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: Nederlands\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Loco-Version: 2.6.4; wp-6.2.2"
+
+#: public/partials/submission-data.php:87
+msgid " (20%)"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:39
+#: includes/libraries/class-exopite-post-types.php:49
+#, php-format
+msgid "%s Archives"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:40
+#: includes/libraries/class-exopite-post-types.php:50
+#, php-format
+msgid "%s Attributes"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:172
+#: includes/libraries/class-exopite-post-types.php:180
+#, php-format
+msgid "Add New %s"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:31
+#: includes/libraries/class-exopite-post-types.php:41
+#, php-format
+msgid "Add new %s"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:331
+msgid "Add new field"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:179
+#: includes/libraries/class-exopite-post-types.php:187
+#, php-format
+msgid "Add or remove %s"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:38
+#: includes/class-quotation-sign-post_types.php:168
+#: includes/libraries/class-exopite-post-types.php:48
+#: includes/libraries/class-exopite-post-types.php:176
+#, php-format
+msgid "All %s"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:431
+#: admin/class-quotation-sign-admin.php:432
+msgid "All Submission"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:333
+msgid "Are you sure you want to remove?"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:180
+#: includes/libraries/class-exopite-post-types.php:188
+#, php-format
+msgid "Choose from the most used %s"
+msgstr ""
+
+#: public/partials/submission-data.php:75
+msgid "Clear"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:495
+msgid "Color"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:496
+msgid "Date"
+msgstr ""
+
+#: public/partials/submission-data.php:68
+msgid "Digital Signature"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:32
+#: includes/class-quotation-sign-post_types.php:169
+#: includes/libraries/class-exopite-post-types.php:42
+#: includes/libraries/class-exopite-post-types.php:177
+#, php-format
+msgid "Edit %s"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:377
+#: public/partials/submission-data.php:46
+msgid "Email"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:343
+msgid "Enter the field name"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:354
+msgid "Enter the field placeholder"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:308
+msgid ""
+"Enter the square meter price description. This description is for per square "
+"meter price"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:297
+msgid "Enter the square meter price. This price is for per square meter price"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:411
+msgid "Enter the stripe payment publishable key"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:400
+msgid "Enter the stripe payment secret key"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:332
+msgid "Field"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:342
+#: admin/class-quotation-sign-admin.php:346
+msgid "Field Name"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:353
+#: admin/class-quotation-sign-admin.php:357
+msgid "Field Placeholder"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:364
+msgid "Field Required"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:372
+msgid "Field Type"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:327
+msgid "Form Fields"
+msgstr ""
+
+#. Author of the plugin
+msgid "GioPio"
+msgstr ""
+
+#. Description of the plugin
+msgid "Handle the basics with this plugin."
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://giopio.com"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://github.com/jakarea/wp-quote-sign.git"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:41
+#: includes/libraries/class-exopite-post-types.php:51
+#, php-format
+msgid "Insert into %s"
+msgstr ""
+
+#: public/partials/submission-data.php:42
+msgid "Name"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:30
+#: includes/libraries/class-exopite-post-types.php:40
+#, php-format
+msgid "New %s"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:173
+#: includes/libraries/class-exopite-post-types.php:181
+#, php-format
+msgid "New %s Name"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:36
+#: includes/class-quotation-sign-post_types.php:181
+#: includes/libraries/class-exopite-post-types.php:46
+#: includes/libraries/class-exopite-post-types.php:189
+#, php-format
+msgid "No %s found"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:37
+#: includes/libraries/class-exopite-post-types.php:47
+#, php-format
+msgid "No %s found in trash"
+msgstr ""
+
+#: public/partials/submission-data.php:94
+msgid "No data found."
+msgstr ""
+
+#: public/partials/quotation-sign-public-display.php:64
+msgid "No fields found."
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:378
+msgid "Number"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:45
+#: includes/class-quotation-sign-post_types.php:174
+#: includes/libraries/class-exopite-post-types.php:55
+#: includes/libraries/class-exopite-post-types.php:182
+#, php-format
+msgid "Parent %s"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:46
+#: includes/class-quotation-sign-post_types.php:175
+#: includes/libraries/class-exopite-post-types.php:56
+#: includes/libraries/class-exopite-post-types.php:183
+#, php-format
+msgid "Parent %s:"
+msgstr ""
+
+#: public/partials/submission-data.php:50
+msgid "Phone"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:177
+#: includes/libraries/class-exopite-post-types.php:185
+#, php-format
+msgid "Popular %s"
+msgstr ""
+
+#: public/partials/submission-data.php:30
+msgid "Quotation Info"
+msgstr ""
+
+#. Name of the plugin
+#: public/partials/quotation-sign-public-display.php:31
+msgid "Quotation Sign"
+msgstr ""
+
+#: public/partials/submission-data.php:76
+msgid "Save"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:35
+#: includes/class-quotation-sign-post_types.php:176
+#: includes/libraries/class-exopite-post-types.php:45
+#: includes/libraries/class-exopite-post-types.php:184
+#, php-format
+msgid "Search %s"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:365
+msgid "Select the field required"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:373
+msgid "Select the field type"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:438
+msgid "Select the page where you want to show all submission."
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:178
+#: includes/libraries/class-exopite-post-types.php:186
+#, php-format
+msgid "Separate %s with commas"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:296
+msgid "Square Meter Price $"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:307
+msgid "Square Meter Price Description"
+msgstr ""
+
+#: public/partials/submission-data.php:54
+msgid "Square Meters"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:410
+#: admin/class-quotation-sign-admin.php:414
+msgid "Stripe Payment Publishable Key"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:399
+#: admin/class-quotation-sign-admin.php:403
+msgid "Stripe Payment Secret Key"
+msgstr ""
+
+#: public/partials/quotation-sign-public-display.php:60
+msgid "Submit"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:376
+#: admin/class-quotation-sign-admin.php:494
+msgid "Text"
+msgstr ""
+
+#: admin/class-quotation-sign-admin.php:379
+msgid "Textarea"
+msgstr ""
+
+#: public/partials/submission-data.php:38
+msgid "Thank you for your submission. We will contact you soon."
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:171
+#: includes/libraries/class-exopite-post-types.php:179
+#, php-format
+msgid "Update %s"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:42
+#: includes/libraries/class-exopite-post-types.php:52
+#, php-format
+msgid "Uploaded to this %s"
+msgstr ""
+
+#: includes/class-quotation-sign-post_types.php:33
+#: includes/class-quotation-sign-post_types.php:34
+#: includes/class-quotation-sign-post_types.php:170
+#: includes/libraries/class-exopite-post-types.php:43
+#: includes/libraries/class-exopite-post-types.php:44
+#: includes/libraries/class-exopite-post-types.php:178
+#, php-format
+msgid "View %s"
+msgstr ""

@@ -16,7 +16,7 @@
  * Plugin Name:       Quotation Sign
  * Plugin URI:        https://github.com/jakarea/wp-quote-sign.git
  * Description:       Handle the basics with this plugin.
- * Version:           1.0.6
+ * Version:           1.0.7
  * Author:            GioPio
  * Author URI:        https://giopio.com
  * License:           GPL-2.0+
@@ -31,7 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'Quotation_sign_Quotation_sign', 'quotation-sign' );
-define( 'Quotation_sign_VERSION', '1.0.6' );
+define( 'Quotation_sign_VERSION', '1.0.7' );
 define( 'Quotation_sign_URL', plugin_dir_url( __FILE__ ) );
 define( 'Quotation_sign_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -115,7 +115,7 @@ if ( is_admin() ) {
 		 *
 		 * Eg.:
 		 * == Upgrade Notice ==
-		 * = 20180624 = <- new version
+		 * = 1.6 = <- new version
 		 * Notice		<- message
 		 *
 		 */

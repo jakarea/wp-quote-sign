@@ -264,7 +264,7 @@ class Quotation_sign_Public {
 			}
 
 			// Retrieve form data
-			$form_data = array(
+			$qs_form_data = array(
 				'name' => sanitize_text_field($_POST['name']),
 				'email' => sanitize_email($_POST['email']),
 				'phone' => sanitize_text_field($_POST['phone']),
@@ -292,7 +292,7 @@ class Quotation_sign_Public {
 
 			// Redirect to submitted-data-page
 			// Build the redirect URL with form data
-			$redirect_url = add_query_arg('form_data', urlencode(base64_encode(serialize($form_data))), get_permalink($submitted_data_page_id));
+			$redirect_url = add_query_arg('qs_form_data', urlencode(base64_encode(serialize($qs_form_data))), get_permalink($submitted_data_page_id));
 
 			// Redirect to submitted-data-page with form data
 			wp_redirect($redirect_url);			
@@ -307,12 +307,12 @@ class Quotation_sign_Public {
 		ob_start();
 
 		// Retrieve form data
-		if ( isset($_GET['form_data']) ) {
-		$form_data = unserialize(base64_decode($_GET['form_data']));
+		if ( isset($_GET['qs_form_data']) ) {
+		$qs_form_data = unserialize(base64_decode($_GET['qs_form_data']));
 		}
 		else
 		{
-			$form_data = array();
+			$qs_form_data = array();
 		}
 		//
 		require plugin_dir_path(__FILE__) . 'partials/submission-data.php';
@@ -329,9 +329,9 @@ class Quotation_sign_Public {
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quotation_sign_pay'])) {
 
 			// retrieve form data from base64 encoded string
-			$form_data = unserialize(base64_decode($_GET['form_data']));
+			$qs_form_data = unserialize(base64_decode($_GET['qs_form_data']));
 			
-			// Add signature to form_data variable
+			// Add signature to qs_form_data variable
 			$signature = sanitize_text_field($_POST['signature']);
 			// upload signature and get the path to signature
 			if( $signature ){
@@ -350,11 +350,11 @@ class Quotation_sign_Public {
 				);
 				$attach_id = wp_insert_attachment($attachment, $signature_path);
 				$signature_url = wp_get_attachment_url($attach_id);
-				$form_data['signature'] = $signature_url;
+				$qs_form_data['signature'] = $signature_url;
 			}
 
-			$form_data['amount'] = sanitize_text_field($_POST['amount']);
-			$form_data['dueamount'] = sanitize_text_field($_POST['dueamount']);
+			$qs_form_data['amount'] = sanitize_text_field($_POST['amount']);
+			$qs_form_data['dueamount'] = sanitize_text_field($_POST['dueamount']);
 
 			$quotation_sign = get_exopite_sof_option( 'quotation-sign' );
 			$stripe_payment_secret_key = $quotation_sign['stripe_payment_secret_key'];
@@ -366,7 +366,7 @@ class Quotation_sign_Public {
 		
 			try {
 				// Create a payment intent with the dynamic price
-				$price = $form_data['amount'] * 100; // Stripe requires the amount to be in cents
+				$price = $qs_form_data['amount'] * 100; // Stripe requires the amount to be in cents
 				$payment_intent = \Stripe\PaymentIntent::create([
 					'amount' => $price,
 					'currency' => 'usd', // Set the appropriate currency code
@@ -390,7 +390,7 @@ class Quotation_sign_Public {
 						'quantity' => 1,
 					]],
 					'mode' => 'payment',
-					'success_url' => $submitted_data_page_url . '?page_id='.$submitted_data_page->ID.'&success=true&session_id={CHECKOUT_SESSION_ID}' . '&form_data=' . urlencode(base64_encode(serialize($form_data))), 
+					'success_url' => $submitted_data_page_url . '?page_id='.$submitted_data_page->ID.'&success=true&session_id={CHECKOUT_SESSION_ID}' . '&qs_form_data=' . urlencode(base64_encode(serialize($qs_form_data))), 
 					'cancel_url' => $submitted_data_page_url . '&error=payment_cancelled'
 				]);
 
@@ -413,15 +413,15 @@ class Quotation_sign_Public {
 		if (isset($_GET['success']) && $_GET['success'] == 'true' && isset($_GET['session_id'])) {
 			$sessionID = $_GET['session_id'];
 
-			$form_data = unserialize(base64_decode($_GET['form_data']));
-			$form_data['session_id'] = $sessionID;
+			$qs_form_data = unserialize(base64_decode($_GET['qs_form_data']));
+			$qs_form_data['session_id'] = $sessionID;
 
-			// Store form_data as json into the database
+			// Store qs_form_data as json into the database
 			$table_name = $wpdb->prefix . 'quotation_sign_list';
 			$wpdb->insert(
 				$table_name,
 				array(
-					'value' => json_encode($form_data),
+					'value' => json_encode($qs_form_data),
 					'created_at' => current_time('mysql'),
 				)
 			);
@@ -432,7 +432,7 @@ class Quotation_sign_Public {
 			$quotation_sign_admin_email_body = 'A new submission has been made. Please check the admin panel for more details. You can also see the details about submission bellow:';
 			$quotation_sign_admin_table = '<table style="width:50%;border:1px solid #000;border-collapse:collapse;">';
 			$quotation_sign_admin_table .= '<tr><th style="border:1px solid #000;padding:5px;">Field</th><th style="border:1px solid #000;padding:5px;">Value</th></tr>';
-			foreach ($form_data as $key => $value) {
+			foreach ($qs_form_data as $key => $value) {
 				$key = str_replace('_', ' ', $key);
 				$quotation_sign_admin_table .= '<tr><td style="border:1px solid #000;padding:5px;">' . $key . '</td><td style="border:1px solid #000;padding:5px;">' . $value . '</td></tr>';
 			}
@@ -440,12 +440,12 @@ class Quotation_sign_Public {
 
 			$quotation_sign_admin_email_body .= $quotation_sign_admin_table;
 
-			$quotation_sign_user_email = $form_data['email'];
+			$quotation_sign_user_email = $qs_form_data['email'];
 			$quotation_sign_user_email_subject = 'Quotation Sign - New Submission';
 			$quotation_sign_user_email_body = 'Thank you for your submission. You can see the details about submission bellow:';
 			$quotation_sign_user_table = '<table style="width:50%;border:1px solid #000;border-collapse:collapse;">';
 			$quotation_sign_user_table .= '<tr><th style="border:1px solid #000;padding:5px;">Field</th><th style="border:1px solid #000;padding:5px;">Value</th></tr>';
-			foreach ($form_data as $key => $value) {
+			foreach ($qs_form_data as $key => $value) {
 				$key = str_replace('_', ' ', $key);
 				$quotation_sign_user_table .= '<tr><td style="border:1px solid #000;padding:5px;">' . $key . '</td><td style="border:1px solid #000;padding:5px;">' . $value . '</td></tr>';
 			}
@@ -455,7 +455,7 @@ class Quotation_sign_Public {
 
 
 			// Generate the PDF file content
-			$pdf_content = $this->generate_pdf($form_data);
+			$pdf_content = $this->generate_pdf($qs_form_data);
 
 			// Set the email headers
 			$headers = array(
