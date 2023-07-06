@@ -308,10 +308,8 @@ class Quotation_sign_Public {
 
 		// Retrieve form data
 		if ( isset($_GET['qs_form_data']) ) {
-		$qs_form_data = unserialize(base64_decode($_GET['qs_form_data']));
-		}
-		else
-		{
+			$qs_form_data = unserialize(base64_decode($_GET['qs_form_data']));
+		}else{
 			$qs_form_data = array();
 		}
 		//
@@ -325,12 +323,16 @@ class Quotation_sign_Public {
 	 * Submit form quotation_sign_pay
 	 */
 	public function quotation_sign_pay() {
-		// Check if the form has been submitted
+		// Check if the form has been 
+		
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quotation_sign_pay'])) {
-
-			// retrieve form data from base64 encoded string
-			$qs_form_data = unserialize(base64_decode($_GET['qs_form_data']));
-			
+			$qs_form_data = array();
+			$qs_form_data['name'] = sanitize_text_field($_POST['qs_name']);
+			$qs_form_data['email'] = sanitize_text_field($_POST['qs_email']);
+			$qs_form_data['phone'] = sanitize_text_field($_POST['qs_phone']);
+			$qs_form_data['square_meters'] = sanitize_text_field($_POST['qs_square_meters']);
+			$qs_form_data['amount'] = sanitize_text_field($_POST['amount']);
+			$qs_form_data['dueamount'] = sanitize_text_field($_POST['dueamount']);
 			// Add signature to qs_form_data variable
 			$signature = sanitize_text_field($_POST['signature']);
 			// upload signature and get the path to signature
@@ -352,10 +354,6 @@ class Quotation_sign_Public {
 				$signature_url = wp_get_attachment_url($attach_id);
 				$qs_form_data['signature'] = $signature_url;
 			}
-
-			$qs_form_data['amount'] = sanitize_text_field($_POST['amount']);
-			$qs_form_data['dueamount'] = sanitize_text_field($_POST['dueamount']);
-
 			$quotation_sign = get_exopite_sof_option( 'quotation-sign' );
 			$stripe_payment_secret_key = $quotation_sign['stripe_payment_secret_key'];
 			$stripe_payment_publishable_key = $quotation_sign['stripe_payment_publishable_key'];
@@ -369,7 +367,7 @@ class Quotation_sign_Public {
 				$price = $qs_form_data['amount'] * 100; // Stripe requires the amount to be in cents
 				$payment_intent = \Stripe\PaymentIntent::create([
 					'amount' => $price,
-					'currency' => 'usd', // Set the appropriate currency code
+					'currency' => 'eur',
 					// Add any additional parameters as needed
 				]);
 		
@@ -380,7 +378,7 @@ class Quotation_sign_Public {
 					'payment_method_types' => ['card'],
 					'line_items' => [[
 						'price_data' => [
-							'currency' => 'usd',
+							'currency' => 'eur',
 							'unit_amount' => $price,
 							'product_data' => [
 								'name' => 'Quotation Sign',
@@ -390,7 +388,7 @@ class Quotation_sign_Public {
 						'quantity' => 1,
 					]],
 					'mode' => 'payment',
-					'success_url' => $submitted_data_page_url . '?page_id='.$submitted_data_page->ID.'&success=true&session_id={CHECKOUT_SESSION_ID}' . '&qs_form_data=' . urlencode(base64_encode(serialize($qs_form_data))), 
+					'success_url' => $submitted_data_page_url . '?page_id=' . $submitted_data_page->ID . '&success=true&session_id={CHECKOUT_SESSION_ID}' . '&qs_form_data=' . urlencode(base64_encode(serialize($qs_form_data))),
 					'cancel_url' => $submitted_data_page_url . '&error=payment_cancelled'
 				]);
 

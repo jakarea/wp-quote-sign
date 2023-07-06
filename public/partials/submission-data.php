@@ -57,12 +57,12 @@ $square_meter_price_description = $quotation_sign['square_meter_price_descriptio
             </table>
             <div class="quotation-sign-public-display__container__table__price">
                 <span class="quotation-sign-public-display__container__table__price__label"><?php echo esc_html__('Price '. $qs_form_data['square_meters'] .'×'. $square_meter_price, 'quotation-sign') ; ?> :</span>
-                <span class="quotation-sign-public-display__container__table__price__value"><?php echo esc_html('$' . $qs_form_data['square_meters'] * $square_meter_price) ; ?></span>
+                <span class="quotation-sign-public-display__container__table__price__value"><?php echo esc_html('€' . $qs_form_data['square_meters'] * $square_meter_price) ; ?></span>
             </div>
             <!-- Add Digital Signature and Pay Button -->
             <?php
             if ( !isset( $_GET['success'] ) || $_GET['success'] !== 'true' ) {?>
-            <form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" method="post" enctype="multipart/form-data">
+            <form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data" id="quotation-sign-form">
                 <div class="quotation-sign-public-display__container__table__signature">
                     <div class="quotation-sign-public-display__container__table__signature__label">
                         <?php echo esc_html__('Digital Signature', 'quotation-sign') ; ?>
@@ -82,9 +82,13 @@ $square_meter_price_description = $quotation_sign['square_meter_price_descriptio
                 </div>
                 <div class="quotation-sign-public-display__container__table__pay">
                     <input type="hidden" name="quotation_sign_pay" value="quotation_sign_pay">
+                    <input type="hidden" name="qs_name" value="<?php echo htmlspecialchars($qs_form_data['name']); ?>">
+                    <input type="hidden" name="qs_email" value="<?php echo htmlspecialchars($qs_form_data['email']) ; ?>">
+                    <input type="hidden" name="qs_phone" value="<?php echo htmlspecialchars($qs_form_data['phone']) ; ?>">
+                    <input type="hidden" name="qs_square_meters" value="<?php echo htmlspecialchars($qs_form_data['square_meters']) ; ?>">
                     <input type="hidden" name="amount" value="<?php echo esc_html__($qs_form_data['square_meters'] * $square_meter_price / 100 * 20, 'quotation-sign') ; ?>">
                     <input type="hidden" name="dueamount" value="<?php echo esc_html($qs_form_data['square_meters'] * $square_meter_price) - $qs_form_data['square_meters'] * $square_meter_price / 100 * 20; ?>">                    
-                    <button type="submit" id="pay" class="button button-primary"><?php echo esc_html__('Pay $'. $qs_form_data['square_meters'] * $square_meter_price / 100 * 20 . ' (20%)', 'quotation-sign') ; ?></button>                                              
+                    <button type="submit" id="pay" class="button button-primary"><?php echo esc_html__('Pay €'. $qs_form_data['square_meters'] * $square_meter_price / 100 * 20 . ' (20%)', 'quotation-sign') ; ?></button>                                              
                 </div>
                 <?php } ?> 
             </form>

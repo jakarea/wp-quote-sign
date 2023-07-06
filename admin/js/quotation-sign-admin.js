@@ -77,7 +77,7 @@
 					label = label.charAt(0).toUpperCase() + label.slice(1);
 					// add dollar sign to the amount and dueamount
 					if (label == 'Amount' || label == 'Dueamount') {
-						value = '$' + value;
+						value = '€' + value;
 					}
 					// Show signature as an image
 					if (label == 'Signature') {

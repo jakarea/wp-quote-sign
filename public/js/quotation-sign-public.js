@@ -52,7 +52,7 @@
 				console.log(data);
 				// submit the form if click on pay button
 				if($(this).attr('id') == 'pay'){
-					$('form').submit();
+					$('#quotation-sign-form').submit();
 				}
 				return true;
 			}
