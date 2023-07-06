@@ -338,3 +338,7 @@ msgstr ""
 #, php-format
 msgid "View %s"
 msgstr ""
+
+
+msgid "Price"
+msgstr ""

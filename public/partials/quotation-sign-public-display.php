@@ -23,6 +23,7 @@ if ( ! empty( $quotation_sign['language'] ) ) {
 
 // Get fields form values.
 $form_fields = $quotation_sign['form_fields'] ?? array();
+$warning_message = $quotation_sign['square_meter_form_description'] ?? '';
 ?>
 <div class="quotation-sign-public-display">
     <div class="quotation-sign-public-display__container">
@@ -56,7 +57,13 @@ $form_fields = $quotation_sign['form_fields'] ?? array();
                         </div>
                         <?php
                     }?>
-                    <div class="quotation-sign-public-display__container__form__form__field">
+                    <?php 
+                    if ( $warning_message !== '') : ?>
+                    <div class="quotation-sign-public-display__container__table__info">
+                        <span class="quotation-sign-public-display__container__table__info__value"><?php echo esc_html__($warning_message, 'quotation-sign') ; ?></span>
+                    </div>
+                    <?php endif; ?>
+                    <div class="quotation-sign-public-display__container__form__form__field mt-3">
                         <input type="submit" name="my_form_submit" value="<?php echo esc_html__('Submit', 'quotation-sign') ; ?>" class="quotation-sign-public-display__container__form__form__field__submit">
                     </div>
                 <?php

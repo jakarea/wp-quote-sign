@@ -195,7 +195,7 @@ class Quotation_sign_Admin {
             'id'                => $this->quotation_sign,              // Required, meta box id, unique per page, to save: get_option( id )
             'submenu'           => false,                            // Required for submenu
             'icon'              => 'dashicons-calculator',        // Optional, dashicon or image url
-            'title'             => 'Quotation Sign',               // The title of the options page and the name in admin menu
+            'title'             => esc_attr__('Quotation Sign', 'quotation-sign' ),               // The title of the options page and the name in admin menu
             'capability'        => 'manage_options',                // The capability needed to view the page
             'plugin_basename'   =>  plugin_basename( plugin_dir_path( __DIR__ ) . $this->quotation_sign . '.php' ),
             // 'tabbed'            => false,
@@ -270,7 +270,7 @@ class Quotation_sign_Admin {
 
         $fields[] = array(
             'name'   => 'basic',
-            'title'  => 'Dashboard',
+            'title'  => esc_attr__('Dashboard', 'quotation-sign' ),
             'icon'   => 'dashicons-admin-generic',
             'fields' => array(
 
@@ -278,15 +278,15 @@ class Quotation_sign_Admin {
                     'type'    => 'card',
                     'class'   => 'class-name', // for all fieds
                     'content' => '<p> <code>[quotation-sign-form]</code> This is Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.</p>',
-                    'header' => 'Quotation Sign',
-                    'footer' => 'Footer Text',
+                    'header' => esc_attr__('Quotation Sign', 'quotation-sign' ),
+                    'footer' => esc_attr__('Footer Text', 'quotation-sign' ),
                 ),
             )
         );
         // Square meter price
         $fields[] = array(
             'name'   => 'square_meter_price',
-            'title'  => 'Square Meter Price',
+            'title'  => esc_attr__('Square Meter Price', 'quotation-sign' ),
             'icon'   => 'fa fa-usd',
             'fields' => array(
 
@@ -309,6 +309,16 @@ class Quotation_sign_Admin {
                     'attributes'    => array(
                         'placeholder' => 'Enter the square meter price description. This description is for per square meter price',
                     ),
+                ),
+
+                array(
+                    'type'    => 'textarea',
+                    'id'      => 'square_meter_form_description',
+                    'title'   => esc_html__( 'Square Meter Form Description', 'quotation-sign' ),
+                    'description'    => esc_html__( 'Enter the square meter form description. This description is for per square meter form', 'quotation-sign' ),
+                    'attributes'    => array(
+                        'placeholder' => 'Enter the square meter form description. This description is for per square meter form',
+                    ),
                 )
 
             )
@@ -317,7 +327,7 @@ class Quotation_sign_Admin {
         // Form fields [name, email, phone, number of square meters] use repeater and that form i will display frontend
         $fields[] = array(
             'name'   => 'form_fields',
-            'title'  => 'Form Fields',
+            'title'  => esc_attr__('Form Fields', 'quotation-sign' ),
             'icon'   => 'fa fa-window-maximize',
             'fields' => array(
 
@@ -389,7 +399,7 @@ class Quotation_sign_Admin {
         // Stripe Payment Configuration Fields information
         $fields[] = array(
             'name'   => 'stripe_payment',
-            'title'  => 'Stripe Payment',
+            'title'  => esc_attr__('Stripe Payment', 'quotation-sign' ),
             'icon'   => 'fa fa-credit-card',
             'fields' => array(
 
@@ -420,7 +430,7 @@ class Quotation_sign_Admin {
 
         // panel title
         $fields[] = array(
-            'title'   => esc_html__( 'All Submission', 'exopite-combiner-minifier' ),
+            'title'   => esc_attr__( 'All Submission', 'quotation-sign' ),
             'sections' => array(),
             'icon'  => '',
         );
@@ -428,7 +438,7 @@ class Quotation_sign_Admin {
         // All Submission show from shortcode
         $fields[] = array(
             'name'  => 'all_submission',
-            'title' => esc_html__('All Submission', 'quotation-sign'),
+            'title' => esc_attr__('All Submission', 'quotation-sign'),
             'description'  => esc_html__('All Submission', 'quotation-sign'),
             'icon'  => 'fa fa-window-maximize',
             'fields'    =>  array(

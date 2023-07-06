@@ -56,7 +56,7 @@ $square_meter_price_description = $quotation_sign['square_meter_price_descriptio
                 </tr>
             </table>
             <div class="quotation-sign-public-display__container__table__price">
-                <span class="quotation-sign-public-display__container__table__price__label"><?php echo esc_html__('Price '. $qs_form_data['square_meters'] .'×'. $square_meter_price, 'quotation-sign') ; ?> :</span>
+                <span class="quotation-sign-public-display__container__table__price__label"><?php echo esc_html__('Price ', 'quotation-sign'); echo $qs_form_data['square_meters'] .'×'. $square_meter_price; ?> :</span>
                 <span class="quotation-sign-public-display__container__table__price__value"><?php echo esc_html('€' . $qs_form_data['square_meters'] * $square_meter_price) ; ?></span>
             </div>
             <!-- Add Digital Signature and Pay Button -->
